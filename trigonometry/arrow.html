@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Arrow</title>
+    <script src="arrow.js"></script>
+    <script src="../utils.js"></script>
+</head>
+<body>
+    <canvas style="height: 400px; width: 400px; margin: 0 auto; display: block;" id="canvas"></canvas>
+    <script>
+        var arrow = new Arrow(), canvas = document.getElementById("canvas"), context = canvas.getContext("2d"),
+        mouse = utils.captureMouse(canvas);
+
+        arrow.x = canvas.width / 2;
+        arrow.y = canvas.height / 2;
+        (function drawFrame(){
+            requestAnimationFrame(drawFrame, canvas);
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            var dx = mouse.x - arrow.x;
+            var dy = mouse.y - arrow.y;
+            //反正切函数
+            arrow.rotation = Math.atan2(dy, dx);
+            arrow.draw(context);
+
+        }());
+    </script>
+</body>
+</html>
