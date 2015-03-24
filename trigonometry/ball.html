@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ball</title>
+    <script src="ball.js"></script>
+</head>
+<body>
+<canvas height="400" width="400" id="canvas"></canvas>
+<canvas height="400" width="400" id="canvas1"></canvas>
+<canvas height="400" width="400" id="canvas2"></canvas>
+<script>
+    window.onload = function(){
+        var canvas = document.getElementById("canvas"),
+                context = canvas.getContext("2d"),
+                ball = new Ball(),
+                centerY = 200,
+                range = 50,
+                xspeed = 1,
+                yspeed = 0.05,
+                angle = 0;
+        ball.x = 0;
+        ball.y = canvas.height / 2;
+
+        (function drawFrame(){
+            window.requestAnimationFrame(drawFrame, canvas);
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            ball.x = (ball.x + xspeed) % canvas.width;
+            ball.y = centerY / 2 + Math.sin(angle) * range;
+            angle += yspeed;
+            ball.draw(context);
+        }());
+
+
+        var canvas1 = document.getElementById("canvas1"),
+                context1 = canvas1.getContext("2d"),
+                ball1 = new Ball(),
+                angle1 = 0,
+                centerScale = 1,
+                range1 = 0.5,
+                speed1 = 0.05;
+            ball1.x = canvas.width / 2;
+            ball1.y = canvas.height / 2;
+        (function drawFrame(){
+            window.requestAnimationFrame(drawFrame, canvas1);
+            context1.clearRect(0, 0, canvas1.width, canvas1.height);
+            ball1.scaleX = ball1.scaleY = centerScale + Math.sin(angle1) * range1;
+            angle1 += speed1;
+            ball1.draw(context1);
+        }());
+
+        var canvas2 = document.getElementById("canvas2"),
+                context2 = canvas2.getContext("2d"),
+                ball2 = new Ball(),
+                angleX = 0,
+                angleY = 0,
+                range2 = 50,
+                centerX = canvas2.width / 2,
+                centerY = canvas2.height / 2,
+                xspeed = 0.07,
+                yspeed = 0.11;
+        (function drawFrame(){
+            window.requestAnimationFrame(drawFrame, canvas2);
+            context2.clearRect(0, 0, canvas2.width, canvas2.height);
+            ball2.x = centerX + Math.sin(angleX) * range2;
+            ball2.y = centerY + Math.sin(angleY) * range2;
+            angleX += xspeed;
+            angleY += yspeed;
+            ball2.draw(context2);
+        }());
+
+    }
+</script>
+</body>
+</html>
