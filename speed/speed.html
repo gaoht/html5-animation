@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SpaceShip</title>
+</head>
+<body>
+<canvas height="400" width="400" id="canvas" style="display: block; margin: 0 auto; background-color: #000"></canvas>
+<script src="../utils.js"></script>
+<script>
+    function Ship(){
+        this.x = 0;
+        this.y = 0;
+        this.vx = 0;
+        this.vy = 0;
+        this.vr = 0;
+        this.thrust = 0;
+        this.rotation = 0;
+        this.showFlame = false;
+    }
+    Ship.prototype.draw = function(context){
+        context.save();
+        context.translate(this.x, this.y);
+        context.rotate(this.rotation);
+        context.strokeStyle = "#ffffff";
+        context.beginPath();
+        context.moveTo(10, -50);
+        context.lineTo(10, 50);
+        context.lineTo(100, 0);
+        context.lineTo(10, -50);
+        context.stroke();
+        if(this.showFlame){
+            context.moveTo(10, 0);
+            context.lineTo(-20, 20);
+            context.lineTo(-20, -20);
+            context.lineTo(10, 0);
+            context.stroke();
+        }
+        context.restore();
+    };
+
+
+    var ship = new Ship(), canvas = document.getElementById("canvas"),
+            context = canvas.getContext("2d"), mouse = utils.captureMouse(canvas);
+
+    document.addEventListener("keydown", function(e){
+        switch (e.keyCode){
+            case 38:
+                ship.thrust = 0.05;
+                ship.showFlame = true;
+                break;
+            case 37:
+                ship.vr = -1;
+                break;
+            case 39:
+                ship.vr = 1;
+                break;
+        }
+    }, false);
+
+    document.addEventListener("keyup", function(e){
+        ship.thrust = 0;
+        ship.vr = 0;
+        ship.showFlame = false;
+
+    }, false);
+
+    ship.x = canvas.width / 2;
+    ship.y = canvas.height / 2;
+    ship.draw(context);
+
+
+    (function drawFrame(){
+        window.requestAnimationFrame(drawFrame, canvas);
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        ship.rotation += ship.vr * Math.PI / 180;
+        var angle = ship.rotation, //in radians
+                ax = Math.cos(angle) * ship.thrust,
+                ay = Math.sin(angle) * ship.thrust;
+        ship.vx += ax;
+        ship.vy += ay;
+        ship.x += ship.vx;
+        ship.y += ship.vy;
+        ship.draw(context);
+    }());
+
+</script>
+
+</body>
+</html>

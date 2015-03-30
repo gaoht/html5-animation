@@ -29,10 +29,10 @@
             ypos = centerY + Math.sin(angle) * range;
             context.lineTo(xpos, ypos);
             context.stroke();
-            if(xpos >= canvas.width){
+//            if(xpos >= canvas.width){
                 xpos %= canvas.width;
-                context.clearRect(0, 0, canvas.width, canvas.height);
-            }
+//                context.clearRect(0, 0, canvas.width, canvas.height);
+//            }
         }());
     }
 </script>
